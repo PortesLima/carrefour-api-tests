@@ -1,0 +1,19 @@
+{
+  "name": "carrefour-api-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js --timeout 10000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "axios": "^1.18.1",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "mochawesome": "^7.1.4"
+  }
+}
