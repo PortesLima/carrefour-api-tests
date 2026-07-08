@@ -13,8 +13,6 @@ Suíte de testes automatizados para a API ServeRest (https://serverest.dev), des
 
 ## Estrutura do projeto
 
-## Estrutura do projeto
-
 ```
 carrefour-api-tests/
 ├── .github/workflows/ci.yml   # Pipeline de CI/CD
