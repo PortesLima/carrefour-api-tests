@@ -13,6 +13,9 @@ Suíte de testes automatizados para a API ServeRest (https://serverest.dev), des
 
 ## Estrutura do projeto
 
+## Estrutura do projeto
+
+```
 carrefour-api-tests/
 ├── .github/workflows/ci.yml   # Pipeline de CI/CD
 ├── test/
@@ -22,6 +25,7 @@ carrefour-api-tests/
 ├── .mocharc.json              # Configuração do Mocha e do reporter
 ├── package.json
 └── README.md
+```
 
 ## Como rodar o projeto localmente
 
