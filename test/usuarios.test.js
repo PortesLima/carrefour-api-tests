@@ -61,18 +61,16 @@ describe('API ServeRest - Usuários', () => {
     expect(response.data.message).to.equal('Registro excluído com sucesso');
   });
 
-it('POST /usuarios não deve permitir cadastro com e-mail já existente', async () => {
+  it('POST /usuarios não deve permitir cadastro com e-mail já existente', async () => {
     const usuarioDuplicado = {
       nome: 'Usuario Duplicado',
-      email: 'fulano@qa.com', // email fixo, proposital
+      email: 'fulano@qa.com',
       password: 'senha123',
       administrador: 'true'
     };
 
-    // cadastra a primeira vez
     await axios.post(`${baseURL}/usuarios`, usuarioDuplicado).catch(() => {});
 
-    // tenta cadastrar de novo com o mesmo email
     try {
       await axios.post(`${baseURL}/usuarios`, usuarioDuplicado);
       throw new Error('Deveria ter dado erro, mas não deu');
@@ -82,7 +80,7 @@ it('POST /usuarios não deve permitir cadastro com e-mail já existente', async 
     }
   });
 
-it('GET /usuarios/{id} deve retornar erro para id em formato inválido', async () => {
+  it('GET /usuarios/{id} deve retornar erro para id em formato inválido', async () => {
     try {
       await axios.get(`${baseURL}/usuarios/idQueNaoExiste123`);
       throw new Error('Deveria ter dado erro, mas não deu');
@@ -108,7 +106,7 @@ it('GET /usuarios/{id} deve retornar erro para id em formato inválido', async (
     }
   });
 
-it('PUT /usuarios/{id} inexistente deve criar um novo usuário (comportamento upsert)', async () => {
+  it('PUT /usuarios/{id} inexistente deve criar um novo usuário (comportamento upsert)', async () => {
     const dados = {
       nome: 'Nome Qualquer',
       email: `unico${Date.now()}@qa.com`,
@@ -123,11 +121,27 @@ it('PUT /usuarios/{id} inexistente deve criar um novo usuário (comportamento up
     expect(response.data).to.have.property('_id');
   });
 
-it('DELETE /usuarios/{id} inexistente deve retornar mensagem de nenhum registro excluído', async () => {
+  it('DELETE /usuarios/{id} inexistente deve retornar mensagem de nenhum registro excluído', async () => {
     const response = await axios.delete(`${baseURL}/usuarios/idInvalido123`);
 
     expect(response.status).to.equal(200);
     expect(response.data.message).to.equal('Nenhum registro excluído');
+  });
+
+  it('DELETE /usuarios/{id} deve funcionar mesmo sem token de autorização (comportamento da API)', async () => {
+    const novoUsuario = {
+      nome: 'Usuario Sem Auth',
+      email: `semauth${Date.now()}@qa.com`,
+      password: 'senha123',
+      administrador: 'true'
+    };
+    const criado = await axios.post(`${baseURL}/usuarios`, novoUsuario);
+    const idCriado = criado.data._id;
+
+    const response = await axios.delete(`${baseURL}/usuarios/${idCriado}`);
+
+    expect(response.status).to.equal(200);
+    expect(response.data.message).to.equal('Registro excluído com sucesso');
   });
 
 });
